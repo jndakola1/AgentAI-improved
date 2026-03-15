@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentAI - Agents</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">⬡</div>
+                <span>AgentAI</span>
+            </div>
+            <ul>
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li class="active"><a href="/agents"><i class="fas fa-user-friends"></i> Agents</a></li>
+                <li><a href="/workflows"><i class="fas fa-cogs"></i> Workflows</a></li>
+                <li><a href="/analytics"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+        <main class="main-content main-content--full">
+            <header class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search agents or commands...">
+                </div>
+                <div class="actions">
+                    <div class="agent-status">
+                        <span>Agent</span>
+                        <span class="status-indicator"></span>
+                        <span>Online</span>
+                    </div>
+                    <button class="icon-button notification" aria-label="Notifications"></button>
+                    <div class="profile">
+                        <div class="avatar-placeholder" aria-label="Profile"></div>
+                    </div>
+                </div>
+            </header>
+            <div class="content">
+                <div class="greeting">
+                    <div class="kicker">Agent Directory</div>
+                    <h1>Choose the right AI specialist.</h1>
+                    <p>Launch focused agents for lead generation, analytics, and workflow orchestration.</p>
+                </div>
+
+                <section class="card-grid">
+                    <% Object.entries(agents).forEach(([id, item]) => { %>
+                        <article class="agent-card">
+                            <div class="agent-card-header">
+                                <div class="agent-badge"><%= item.icon %></div>
+                                <div>
+                                    <h3><%= item.name %></h3>
+                                    <p class="muted">Purpose-built assistant</p>
+                                </div>
+                            </div>
+                            <p><%= item.description %></p>
+                            <div class="inline-list">
+                                <% item.suggestions.slice(0, 2).forEach((tip) => { %>
+                                    <span class="mini-chip"><%= tip %></span>
+                                <% }) %>
+                            </div>
+                            <div class="card-actions">
+                                <a class="primary-btn" href="/?agent=<%= id %>">Launch Agent</a>
+                                <a class="secondary-btn" href="/analytics">View Metrics</a>
+                            </div>
+                        </article>
+                    <% }) %>
+                </section>
+            </div>
+        </main>
+    </div>
+    <nav class="mobile-nav">
+        <a href="/"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="/agents" class="active"><i class="fas fa-user-friends"></i><span>Agents</span></a>
+        <a href="/workflows"><i class="fas fa-cogs"></i><span>Workflows</span></a>
+        <a href="/settings"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </nav>
+</body>
+</html>

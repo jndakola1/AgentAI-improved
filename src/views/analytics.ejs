@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentAI – Analytics</title>
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">⬡</div>
+                <span>AgentAI</span>
+            </div>
+            <ul>
+                <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="/agents"><i class="fas fa-user-friends"></i> Agents</a></li>
+                <li><a href="/workflows"><i class="fas fa-cogs"></i> Workflows</a></li>
+                <li class="active"><a href="/analytics"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content main-content--full">
+            <header class="header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search metrics…">
+                </div>
+                <div class="actions">
+                    <div class="agent-status">
+                        <span>Live</span>
+                        <span class="status-indicator"></span>
+                        <span>Tracking</span>
+                    </div>
+                    <div class="range-picker">
+                        <button class="range-btn active" data-range="7">7d</button>
+                        <button class="range-btn" data-range="30">30d</button>
+                        <button class="range-btn" data-range="90">90d</button>
+                    </div>
+                    <button class="icon-button notification" aria-label="Notifications"></button>
+                    <div class="profile"><div class="avatar-placeholder"></div></div>
+                </div>
+            </header>
+
+            <div class="content">
+                <div class="greeting">
+                    <div class="kicker">Analytics</div>
+                    <h1>Performance at a glance.</h1>
+                    <p>Track agent health, workflow outcomes, and business results.</p>
+                </div>
+
+                <section class="stats-grid">
+                    <article class="stat-card">
+                        <div class="metric-icon"><i class="fas fa-bullseye"></i></div>
+                        <div class="metric" data-target="128">0</div>
+                        <h3>Leads captured</h3>
+                        <p>Qualified opportunities over the last 7 days.</p>
+                        <div class="trend up"><i class="fas fa-arrow-trend-up"></i> +14% vs prev week</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="metric-icon"><i class="fas fa-list-check"></i></div>
+                        <div class="metric" data-target="42">0</div>
+                        <h3>Tasks created</h3>
+                        <p>Automated follow-ups from agent recommendations.</p>
+                        <div class="trend up"><i class="fas fa-arrow-trend-up"></i> +6% vs prev week</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="metric-icon"><i class="fas fa-wave-square"></i></div>
+                        <div class="metric" data-target="97" data-suffix="%">0</div>
+                        <h3>Workflow success</h3>
+                        <p>Execution rate across Nova, API Gateway, and Lambda.</p>
+                        <div class="trend neutral"><i class="fas fa-minus"></i> Stable</div>
+                    </article>
+                    <article class="stat-card">
+                        <div class="metric-icon"><i class="fas fa-stopwatch"></i></div>
+                        <div class="metric" data-target="420" data-suffix="ms">0</div>
+                        <h3>Avg response</h3>
+                        <p>Average time for live agent-assisted requests.</p>
+                        <div class="trend down-good"><i class="fas fa-arrow-trend-down"></i> -38ms vs prev week</div>
+                    </article>
+                </section>
+
+                <div class="chart-grid">
+                    <section class="chart-card chart-card--wide">
+                        <div class="chart-header">
+                            <h3>Agent Activity <span class="kicker">/ last 7 days</span></h3>
+                        </div>
+                        <div class="chart-wrap">
+                            <canvas id="activityChart"></canvas>
+                        </div>
+                    </section>
+                    <section class="chart-card">
+                        <div class="chart-header">
+                            <h3>Requests by Agent</h3>
+                        </div>
+                        <div class="chart-wrap chart-wrap--donut">
+                            <canvas id="agentDonut"></canvas>
+                        </div>
+                    </section>
+                </div>
+
+                <section class="table-card">
+                    <div class="chart-header">
+                        <h3>Recent Workflow Runs</h3>
+                        <span class="badge badge--success">All systems healthy</span>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Workflow</th>
+                                    <th>Agent</th>
+                                    <th>Duration</th>
+                                    <th>Status</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Lead Discovery → Follow-up</td><td>Nova</td><td>1.2s</td><td><span class="badge badge--success">Success</span></td><td>2 min ago</td></tr>
+                                <tr><td>Insight Brief Generator</td><td>Data Analyst</td><td>3.4s</td><td><span class="badge badge--success">Success</span></td><td>15 min ago</td></tr>
+                                <tr><td>Alert + Escalation</td><td>Workflow</td><td>0.8s</td><td><span class="badge badge--success">Success</span></td><td>1 hr ago</td></tr>
+                                <tr><td>Lead Discovery → Follow-up</td><td>Nova</td><td>2.1s</td><td><span class="badge badge--warning">Slow</span></td><td>2 hr ago</td></tr>
+                                <tr><td>Insight Brief Generator</td><td>Data Analyst</td><td>—</td><td><span class="badge badge--danger">Failed</span></td><td>5 hr ago</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <nav class="mobile-nav">
+        <a href="/"><i class="fas fa-home"></i><span>Home</span></a>
+        <a href="/agents"><i class="fas fa-user-friends"></i><span>Agents</span></a>
+        <a href="/workflows"><i class="fas fa-cogs"></i><span>Workflows</span></a>
+        <a href="/settings" class="active"><i class="fas fa-cog"></i><span>Settings</span></a>
+    </nav>
+
+    <script>
+    (() => {
+      // ── Animated counters ────────────────────────────────────────────────
+      document.querySelectorAll('.metric[data-target]').forEach(el => {
+        const target = +el.dataset.target;
+        const suffix = el.dataset.suffix || '';
+        let current = 0;
+        const step = Math.ceil(target / 40);
+        const timer = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = current + suffix;
+          if (current >= target) clearInterval(timer);
+        }, 30);
+      });
+
+      // ── Chart.js shared defaults ─────────────────────────────────────────
+      Chart.defaults.color = '#a5b4d6';
+      Chart.defaults.font.family = 'Inter, sans-serif';
+
+      const gridColor = 'rgba(148,163,184,0.1)';
+      const primary   = '#5b7cff';
+      const success   = '#34d399';
+
+      // ── Activity line chart ──────────────────────────────────────────────
+      new Chart(document.getElementById('activityChart'), {
+        type: 'line',
+        data: {
+          labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          datasets: [
+            {
+              label: 'Leads',
+              data: [12, 19, 14, 22, 28, 18, 15],
+              borderColor: primary,
+              backgroundColor: 'rgba(91,124,255,0.12)',
+              fill: true,
+              tension: 0.45,
+              pointRadius: 4,
+              pointBackgroundColor: primary,
+            },
+            {
+              label: 'Tasks',
+              data: [5, 8, 6, 9, 12, 7, 5],
+              borderColor: success,
+              backgroundColor: 'rgba(52,211,153,0.08)',
+              fill: true,
+              tension: 0.45,
+              pointRadius: 4,
+              pointBackgroundColor: success,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'top', align: 'end' } },
+          scales: {
+            x: { grid: { color: gridColor }, border: { display: false } },
+            y: { grid: { color: gridColor }, border: { display: false }, beginAtZero: true },
+          },
+        },
+      });
+
+      // ── Agent donut chart ────────────────────────────────────────────────
+      new Chart(document.getElementById('agentDonut'), {
+        type: 'doughnut',
+        data: {
+          labels: ['Nova', 'Data Analyst', 'Workflow'],
+          datasets: [{
+            data: [54, 28, 18],
+            backgroundColor: ['#5b7cff', '#34d399', '#fbbf24'],
+            borderWidth: 0,
+            hoverOffset: 8,
+          }],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '68%',
+          plugins: {
+            legend: { position: 'bottom', labels: { padding: 16 } },
+          },
+        },
+      });
+
+      // ── Range picker (visual only — swap data in a real app) ─────────────
+      document.querySelectorAll('.range-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+    })();
+    </script>
+</body>
+</html>
