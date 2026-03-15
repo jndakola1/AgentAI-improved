@@ -1,6 +1,6 @@
 import express from "express";
 import { getAnalyticsPage, getWorkflowsPage, getAgentsPage, getHomePage, getSettingsPage } from "../controllers/pages.js";
-import { chat } from "../controllers/chat.js";
+import { chat, invokeLambda } from "../controllers/chat.js";
 
 const router = express.Router();
 
@@ -13,5 +13,6 @@ router.get("/settings", getSettingsPage);
 
 // API routes
 router.post("/api/chat", chat);
+router.post("/api/lambda-invoke", invokeLambda);
 
 export default router;
