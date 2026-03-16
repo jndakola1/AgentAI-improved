@@ -1,5 +1,5 @@
 import express from "express";
-import { getAnalyticsPage, getWorkflowsPage, getAgentsPage, getHomePage, getSettingsPage } from "../controllers/pages.js";
+import { getAnalyticsPage, getWorkflowsPage, getWorkflowDetailPage, getAgentsPage, getHomePage, getSettingsPage } from "../controllers/pages.js";
 import { chat, invokeLambda } from "../controllers/chat.js";
 
 const router = express.Router();
@@ -8,6 +8,7 @@ const router = express.Router();
 router.get("/", getHomePage);
 router.get("/agents", getAgentsPage);
 router.get("/workflows", getWorkflowsPage);
+router.get("/workflows/:id", getWorkflowDetailPage);
 router.get("/analytics", getAnalyticsPage);
 router.get("/settings", getSettingsPage);
 

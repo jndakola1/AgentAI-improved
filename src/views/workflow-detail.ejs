@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentAI – Workflow Detail</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <nav class="sidebar">
+      <div class="logo"><div class="logo-icon">⬡</div><span>AgentAI</span></div>
+      <ul>
+        <li><a href="/"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="/agents"><i class="fas fa-user-friends"></i> Agents</a></li>
+        <li class="active"><a href="/workflows"><i class="fas fa-cogs"></i> Workflows</a></li>
+        <li><a href="/analytics"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+        <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
+      </ul>
+    </nav>
+
+    <main class="main-content main-content--full">
+      <header class="header">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search workflow…" disabled>
+        </div>
+        <div class="actions">
+          <div class="agent-status" id="workflowStatusBadge">
+            <span>Workflow</span>
+            <span class="status-indicator"></span>
+            <span id="workflowStatusLabel">Ready</span>
+          </div>
+          <button class="icon-button notification" aria-label="Notifications"></button>
+          <div class="profile"><div class="avatar-placeholder"></div></div>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="greeting">
+          <div class="kicker">Workflow Detail</div>
+          <h1><%= workflow.name %></h1>
+          <p><%= workflow.description %></p>
+        </div>
+
+        <div class="page-card">
+          <h2>Steps</h2>
+          <div class="workflow-steps" style="margin-bottom:16px;">
+            <% workflow.steps.forEach((step, idx) => { %>
+              <span class="step-chip"><i class="fas fa-check-circle"></i> <%= step %></span>
+              <% if (idx < workflow.steps.length - 1) { %>
+                <i class="fas fa-chevron-right step-arrow"></i>
+              <% } %>
+            <% }) %>
+          </div>
+
+          <div class="card-actions">
+            <button class="primary-btn" id="runWorkflowBtn"><i class="fas fa-play"></i> Run</button>
+            <button class="secondary-btn" id="generateBriefBtn"><i class="fas fa-file-lines"></i> Generate Brief</button>
+            <button class="secondary-btn" id="reviewFlowBtn"><i class="fas fa-eye"></i> Review Flow</button>
+            <a class="secondary-btn" href="/workflows"><i class="fas fa-arrow-left"></i> Back to Workflows</a>
+          </div>
+
+          <div class="last-run" id="detailLastRun">Last run: <strong><%= workflow.lastRun %></strong> · <span class="badge badge--success"><%= workflow.status %></span></div>
+
+          <div class="page-stack" style="margin-top:20px;">
+            <div class="page-card" id="workflowOutput" style="min-height:160px; display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <nav class="mobile-nav">
+    <a href="/"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="/agents"><i class="fas fa-user-friends"></i><span>Agents</span></a>
+    <a href="/workflows" class="active"><i class="fas fa-cogs"></i><span>Workflows</span></a>
+    <a href="/settings"><i class="fas fa-cog"></i><span>Settings</span></a>
+  </nav>
+
+  <script>
+    (() => {
+      const statusDot = document.getElementById('workflowStatusBadge').querySelector('.status-indicator');
+      const statusLabel = document.getElementById('workflowStatusLabel');
+      const output = document.getElementById('workflowOutput');
+      const runBtn = document.getElementById('runWorkflowBtn');
+      const briefBtn = document.getElementById('generateBriefBtn');
+      const reviewBtn = document.getElementById('reviewFlowBtn');
+      const lastRun = document.getElementById('detailLastRun');
+
+      const updateStatus = (state, text) => {
+        statusLabel.textContent = text;
+        statusDot.className = 'status-indicator';
+        if (state === 'running') statusDot.classList.add('pulsing');
+        if (state === 'error') statusDot.classList.add('error');
+      };
+
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+      const showOutput = (html) => {
+        output.style.display = 'block';
+        output.innerHTML = html;
+      };
+
+      runBtn.addEventListener('click', async () => {
+        updateStatus('running', 'Executing…');
+        showOutput('<p>Running workflow tasks: <strong>Search, Summarise, Task Creation</strong>…</p>');
+        runBtn.disabled = true;
+        await sleep(1800);
+        updateStatus('online', 'Completed');
+        showOutput('<p>Workflow executed successfully. A brief is available now.</p>');
+        lastRun.innerHTML = `Last run: <strong>just now</strong> · <span class="badge badge--success">Success</span>`;
+        runBtn.disabled = false;
+      });
+
+      briefBtn.addEventListener('click', () => {
+        updateStatus('online', 'Brief generated');
+        showOutput(`
+          <h3>Generated Brief</h3>
+          <p><em>Lead Discovery summary</em>: 12 new leads found, 5 hot prospects, follow-up tasks created.</p>
+        `);
+      });
+
+      reviewBtn.addEventListener('click', () => {
+        updateStatus('online', 'Reviewing flow');
+        showOutput(`
+          <h3>Review</h3>
+          <ol>
+            <li>Search input matches customer profile and lead source filters</li>
+            <li>AI summariser created concise notes</li>
+            <li>Tasks created and assigned to owner</li>
+          </ol>
+        `);
+      });
+    })();
+  </script>
+</body>
+</html>
