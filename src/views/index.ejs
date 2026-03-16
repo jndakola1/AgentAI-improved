@@ -136,6 +136,24 @@
         chatInput.focus();
       };
 
+      // ── Search bar support (header) ───────────────────────────────────────
+      const globalSearch = document.getElementById('globalSearch');
+      globalSearch.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          doGlobalSearch();
+        }
+      });
+
+      function doGlobalSearch() {
+        const query = globalSearch.value.trim();
+        if (!query) return;
+
+        globalSearch.blur();
+        chatInput.value = query;
+        sendMessage();
+      }
+
       // ── Send on Enter ──────────────────────────────────────────────────────
       chatInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
